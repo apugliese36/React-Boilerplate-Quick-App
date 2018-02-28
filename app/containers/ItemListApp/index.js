@@ -17,8 +17,11 @@ export class ItemListApp extends React.Component { // eslint-disable-line react/
     super(props);
     this.state = {
       newItem: '',
-      items: ['Chips', 'Dip', 'Soda'],
-      selectedItems: []
+      items: [
+        {id: 0, text: 'Chips', checked: false},
+        {id: 1, text: 'Dip', checked: false},
+        {id: 2, text: 'Soda', checked: false}
+      ]
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -36,7 +39,7 @@ export class ItemListApp extends React.Component { // eslint-disable-line react/
 
   handleSubmit(event) {
     event.preventDefault()
-    let newItem = this.state.newItem;
+    let newItem = {id: this.state.items.length + 1, text: this.state.newItem, checked: false};
     let updatedItems = this.state.items.concat(newItem)
 
     this.setState({
@@ -55,20 +58,13 @@ export class ItemListApp extends React.Component { // eslint-disable-line react/
   }
 
   handleClick(event) {
-    let item = event.target.innerHTML;
-    let selectedItems = this.state.selectedItems;
-    let updatedSelectedItems;
+    let itemId = +event.target.id;
+    let items = this.state.items;
 
-    if (selectedItems.includes(item)) {
-      let index = selectedItems.indexOf(item)
-      delete selectedItems[index]
-      updatedSelectedItems = selectedItems
-    } else {
-      updatedSelectedItems = selectedItems.concat(item)
-    }
+    items[itemId].checked = !items[itemId].checked
 
     this.setState({
-      selectedItems: updatedSelectedItems
+      items: items
     })
   }
 
