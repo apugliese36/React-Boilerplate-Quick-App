@@ -14,7 +14,7 @@ import messages from './messages';
 const Item = props => {
   return (
     <li>
-      <span className={props.style} onClick={props.handleClick}>{props.itemName}</span>
+      <span id={props.id} className={props.style} onClick={props.handleClick}>{props.itemName}</span>
       <button className='delete' onClick={props.deleteItem}>DELETE</button>
     </li>
   );

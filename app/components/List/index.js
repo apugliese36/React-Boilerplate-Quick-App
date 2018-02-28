@@ -11,7 +11,7 @@ import Item from '../Item';
 function List(props) {
   let items = props.items.map((item, index) => {
     let style;
-    if (props.selectedItems.includes(item)) {
+    if (item.checked) {
       style = 'selected'
     }
 
@@ -24,7 +24,8 @@ function List(props) {
         handleClick={props.handleClick}
         style={style}
         key={index}
-        itemName={item}
+        id={item.id}
+        itemName={item.text}
         deleteItem={deleteItem}
       />
     )
