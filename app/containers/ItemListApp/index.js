@@ -18,9 +18,9 @@ export class ItemListApp extends React.Component { // eslint-disable-line react/
     this.state = {
       newItem: '',
       items: [
-        {id: 1, text: 'Chips', checked: false},
-        {id: 2, text: 'Dip', checked: false},
-        {id: 3, text: 'Soda', checked: false}
+        {id: 0, text: 'Chips', checked: false},
+        {id: 1, text: 'Dip', checked: false},
+        {id: 2, text: 'Soda', checked: false}
       ]
     };
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -61,7 +61,7 @@ export class ItemListApp extends React.Component { // eslint-disable-line react/
     let itemId = +event.target.id;
     let items = this.state.items;
 
-    items[itemId - 1].checked = !items[itemId - 1].checked
+    items[itemId].checked = !items[itemId].checked
 
     this.setState({
       items: items
