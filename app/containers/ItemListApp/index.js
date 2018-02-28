@@ -21,8 +21,7 @@ export class ItemListApp extends React.Component { // eslint-disable-line react/
         {id: 1, text: 'Chips', checked: false},
         {id: 2, text: 'Dip', checked: false},
         {id: 3, text: 'Soda', checked: false}
-      ],
-      selectedItems: []
+      ]
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
