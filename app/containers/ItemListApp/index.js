@@ -7,81 +7,42 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Helmet } from 'react-helmet';
+import { FormattedMessage } from 'react-intl';
+import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
+
+import injectSaga from 'utils/injectSaga';
+import injectReducer from 'utils/injectReducer';
+import makeSelectItemListApp from './selectors';
+import reducer from './reducer';
+import saga from './saga';
+import messages from './messages';
+import { changeItemname, addItem } from './actions'
+
 import Item from '../../components/Item';
 import MiniForm from '../../components/Miniform';
 import List from '../../components/List';
 
 export class ItemListApp extends React.Component { // eslint-disable-line react/prefer-stateless-function
-  constructor(props) {
-    super(props);
-    this.state = {
-      newItem: '',
-      items: [
-        {id: 0, text: 'Chips', checked: false},
-        {id: 1, text: 'Dip', checked: false},
-        {id: 2, text: 'Soda', checked: false}
-      ]
-    };
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleDelete = this.handleDelete.bind(this);
-    this.handleClick = this.handleClick.bind(this);
-  }
-
-  handleInputChange(event) {
-    let input = event.target.value;
-
-    this.setState({
-      newItem: input
-    })
-  }
-
-  handleSubmit(event) {
-    event.preventDefault()
-    let newItem = {id: this.state.items.length + 1, text: this.state.newItem, checked: false};
-    let updatedItems = this.state.items.concat(newItem)
-
-    this.setState({
-      items: updatedItems,
-      newItem: ''
-    })
-  }
-
-  handleDelete(index) {
-    let items = this.state.items;
-    delete items[index];
-
-    this.setState({
-      items: items
-    })
-  }
-
-  handleClick(event) {
-    let itemId = +event.target.id;
-    let items = this.state.items;
-
-    items[itemId].checked = !items[itemId].checked
-
-    this.setState({
-      items: items
-    })
-  }
-
   render() {
-
     return (
       <div>
+        <Helmet>
+          <title>ItemListApp</title>
+          <meta name="description" content="Description of ItemListApp" />
+        </Helmet>
         <List
-          handleClick={this.handleClick}
-          handleDelete={this.handleDelete}
-          items={this.state.items}
-          selectedItems={this.state.selectedItems}
+          handleClick=''
+          handleDelete=''
+          items={this.props.itemlistapp.items}
         />
         <MiniForm
-          handleSubmit={this.handleSubmit}
-          handleInputChange={this.handleInputChange}
-          newItem={this.state.newItem}/>
+          items={this.props.itemlistapp.items}
+          handleSubmit={this.props.onAddItem}
+          newItem={this.props.itemlistapp.newItem}
+          onChangeItemname={this.props.onChangeItemname}
+        />
       </div>
     );
   }
@@ -89,17 +50,31 @@ export class ItemListApp extends React.Component { // eslint-disable-line react/
 
 ItemListApp.propTypes = {
   dispatch: PropTypes.func.isRequired,
+  onChangeItemname: PropTypes.func,
+  onAddItem: PropTypes.func,
 };
 
+const mapStateToProps = createStructuredSelector({
+  itemlistapp: makeSelectItemListApp()
+});
 
 function mapDispatchToProps(dispatch) {
   return {
     dispatch,
+    onChangeItemname: (event) => dispatch(changeItemname(event.target.value)),
+    onAddItem: (payload) => {
+      dispatch(addItem(payload))
+    },
   };
 }
 
-const withConnect = connect(null, mapDispatchToProps);
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
+
+const withReducer = injectReducer({ key: 'itemListApp', reducer });
+const withSaga = injectSaga({ key: 'itemListApp', saga });
 
 export default compose(
+  withReducer,
+  withSaga,
   withConnect,
 )(ItemListApp);
