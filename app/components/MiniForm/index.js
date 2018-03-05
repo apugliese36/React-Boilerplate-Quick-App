@@ -9,13 +9,21 @@ import React from 'react';
 
 
 function MiniForm(props) {
+  let item = {id: props.items.length, text: props.newItem, checked: false }
+  let payload = [ ...props.items, item ]
+
+  let handleSubmittal = (event) => {
+    event.preventDefault();
+    props.handleSubmit(payload);
+  }
+
   return (
     <div>
-      <form onSubmit={props.handleSubmit}>
+      <form onSubmit={handleSubmittal}>
         <label>
           New Item:
           <input
-            onChange={props.handleInputChange}
+            onChange={props.onChangeItemname}
             type='text'
             value={props.newItem}
           />

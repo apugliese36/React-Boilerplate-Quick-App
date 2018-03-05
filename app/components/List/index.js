@@ -16,12 +16,22 @@ function List(props) {
     }
 
     let deleteItem = () => {
-      props.handleDelete(index)
+      let payload = props.items.slice(0, index).concat(props.items.slice(index + 1))
+      
+      props.handleDelete(payload)
+    }
+
+    let onClick = () => {
+      let checkedSwitchedItem = props.items[index]
+      checkedSwitchedItem.checked = !checkedSwitchedItem.checked
+      let payload = props.items.slice(0, index).concat(checkedSwitchedItem).concat(props.items.slice(index + 1))
+
+      props.handleClick(payload);
     }
 
     return (
       <Item
-        handleClick={props.handleClick}
+        handleClick={onClick}
         style={style}
         key={index}
         id={item.id}
