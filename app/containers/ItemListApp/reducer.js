@@ -24,15 +24,22 @@ const initialState = fromJS({
 function itemListAppReducer(state = initialState, action) {
   switch (action.type) {
     case ADD_ITEM:
-      console.log('ADD_ITEM payload', action.payload);
+      return state
+        .set('items', action.payload)
+        .set('newItem', '')
+
+    case DELETE_ITEM:
       return state
         .set('items', action.payload)
 
-    case DELETE_ITEM:
     case TOGGLE_ITEM:
+      return state
+        .set('items', action.payload)
+
     case CHANGE_ITEMNAME:
       return state
         .set('newItem', action.name)
+        
     default:
       return state;
   }

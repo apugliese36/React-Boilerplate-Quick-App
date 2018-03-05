@@ -9,7 +9,7 @@ import React from 'react';
 
 
 function MiniForm(props) {
-  let item = {id: 3, text: props.newItem}
+  let item = {id: props.items.length, text: props.newItem, checked: false }
   let payload = [ ...props.items, item ]
 
   let handleSubmittal = (event) => {

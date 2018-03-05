@@ -17,16 +17,16 @@
      payload,
    };
  }
- export function deleteItem(item) {
+ export function deleteItem(payload) {
    return {
      type: DELETE_ITEM,
-     item,
+     payload,
    };
  }
- export function toggleItem(item) {
+ export function toggleItem(payload) {
    return {
      type: TOGGLE_ITEM,
-     item,
+     payload,
    };
  }
  export function changeItemname(name) {

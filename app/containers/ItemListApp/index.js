@@ -18,7 +18,7 @@ import makeSelectItemListApp from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
-import { changeItemname, addItem } from './actions'
+import { changeItemname, addItem, deleteItem, toggleItem } from './actions'
 
 import Item from '../../components/Item';
 import MiniForm from '../../components/Miniform';
@@ -33,8 +33,8 @@ export class ItemListApp extends React.Component { // eslint-disable-line react/
           <meta name="description" content="Description of ItemListApp" />
         </Helmet>
         <List
-          handleClick=''
-          handleDelete=''
+          handleClick={this.props.onToggleItem}
+          handleDelete={this.props.onDeleteItem}
           items={this.props.itemlistapp.items}
         />
         <MiniForm
@@ -52,6 +52,8 @@ ItemListApp.propTypes = {
   dispatch: PropTypes.func.isRequired,
   onChangeItemname: PropTypes.func,
   onAddItem: PropTypes.func,
+  onDeleteItem: PropTypes.func,
+  onToggleItem: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -62,9 +64,9 @@ function mapDispatchToProps(dispatch) {
   return {
     dispatch,
     onChangeItemname: (event) => dispatch(changeItemname(event.target.value)),
-    onAddItem: (payload) => {
-      dispatch(addItem(payload))
-    },
+    onAddItem: (payload) => dispatch(addItem(payload)),
+    onDeleteItem: (payload) => dispatch(deleteItem(payload)),
+    onToggleItem: (payload) => dispatch(toggleItem(payload)),
   };
 }
 
